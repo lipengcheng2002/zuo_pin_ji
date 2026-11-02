@@ -1,0 +1,43 @@
+{
+  "name": "zhiyan-commerce",
+  "version": "1.1.0",
+  "private": true,
+  "description": "织言 ZHIYAN — enterprise AI stylist & apparel commerce platform",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "predev": "node scripts/sync-tailwind-sources.mjs",
+    "build": "next build",
+    "prebuild": "node scripts/sync-tailwind-sources.mjs",
+    "start": "next start -p 3000",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:agent": "vitest run src/lib/agent src/lib/agents src/lib/engine",
+    "eval:agent": "vitest run src/lib/agent/evaluation.test.ts --reporter=verbose",
+    "test:watch": "vitest",
+    "test:e2e": "node e2e/smoke.mjs",
+    "agent:admin": "node scripts/agent-admin.mjs",
+    "seed:offline": "python ml/scripts/simulate_pipeline.py"
+  },
+  "dependencies": {
+    "clsx": "2.1.1",
+    "next": "16.4.3",
+    "pg": "8.16.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "^24.3.0",
+    "@types/pg": "^8.15.5",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "tailwindcss": "4.3.3",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4",
+    "playwright": "1.64.1"
+  },
+  "engines": {
+    "node": ">=20.9.0"
+  }
+}

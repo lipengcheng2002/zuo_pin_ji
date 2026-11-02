@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: zhiyan-agent
+    runtime: docker
+    plan: free
+    region: singapore
+    rootDir: 电商智能推荐
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: DATA_DIR
+        value: /tmp/zhiyan-data
+      - key: DEMO_AUTH
+        value: "true"
+      - key: AGENT_ENABLED
+        value: "true"
+      - key: AGENT_SIMULATE_LATENCY
+        value: "false"

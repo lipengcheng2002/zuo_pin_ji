@@ -1,0 +1,133 @@
+{
+  "generatedAt": "2026-10-29T09:36:15.883110+00:00",
+  "dataset": {
+    "users": 160,
+    "items": 40,
+    "interactions": 2105,
+    "rankingCandidates": 4000,
+    "windowDays": 90,
+    "generatedAt": "2026-10-29T12:00:00+00:00"
+  },
+  "twoTower": {
+    "model": "matrix-factorization (SGD) · two-tower proxy",
+    "embeddingDim": 16,
+    "epochs": 28,
+    "rmse": 0.5932,
+    "auc": 0.8807,
+    "precisionAt10": 0.1131,
+    "recallAt10": 0.875,
+    "ndcgAt10": 0.8854,
+    "coverage": 1.0,
+    "novelty": 8.3754,
+    "testUsers": 84,
+    "trainPairs": 1539
+  },
+  "ranker": {
+    "model": "logistic ranker (pure-python SGD fallback)",
+    "auc": 0.7568,
+    "weights": [
+      {
+        "feature": "profile_affinity",
+        "weight": 2.4709
+      },
+      {
+        "feature": "style_overlap",
+        "weight": 2.1658
+      },
+      {
+        "feature": "constraint_match",
+        "weight": 1.62
+      },
+      {
+        "feature": "collaborative_score",
+        "weight": 1.2795
+      },
+      {
+        "feature": "user_recency_days",
+        "weight": -1.2772
+      },
+      {
+        "feature": "semantic_similarity",
+        "weight": 0.9422
+      },
+      {
+        "feature": "price_fit",
+        "weight": 0.8961
+      },
+      {
+        "feature": "complement_score",
+        "weight": -0.6341
+      },
+      {
+        "feature": "stock_ratio",
+        "weight": 0.5792
+      },
+      {
+        "feature": "category_affinity",
+        "weight": -0.5444
+      },
+      {
+        "feature": "occasion_overlap",
+        "weight": -0.4336
+      },
+      {
+        "feature": "freshness",
+        "weight": -0.2942
+      },
+      {
+        "feature": "price_ratio",
+        "weight": 0.2044
+      },
+      {
+        "feature": "trend_score",
+        "weight": 0.1969
+      },
+      {
+        "feature": "quality_score",
+        "weight": 0.1913
+      },
+      {
+        "feature": "user_purchase_count",
+        "weight": -0.1908
+      },
+      {
+        "feature": "margin_index",
+        "weight": -0.1611
+      },
+      {
+        "feature": "color_affinity",
+        "weight": 0.1417
+      },
+      {
+        "feature": "item_cvr",
+        "weight": 0.0301
+      },
+      {
+        "feature": "item_ctr",
+        "weight": 0.0259
+      }
+    ],
+    "bias": -3.2399
+  },
+  "spark": {
+    "job": "spark/feature_engineering.py",
+    "windowDays": 90,
+    "users": 160,
+    "items": 40,
+    "interactions": 2105,
+    "eventWeights": {
+      "view": 1.0,
+      "click": 2.0,
+      "wishlist": 3.5,
+      "add_to_cart": 5.0,
+      "purchase": 8.0,
+      "search": 1.2,
+      "chat": 1.5
+    }
+  },
+  "notes": [
+    "Demo artifact generated without Spark/PyTorch for reproducibility.",
+    "Run ml/spark/feature_engineering.py and ml/train/two_tower.py for production artifacts.",
+    "Web runtime uses the deterministic hash encoder when no exported embeddings are present."
+  ]
+}

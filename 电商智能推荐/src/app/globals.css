@@ -1,0 +1,555 @@
+@import "tailwindcss";
+/* @tailwind-sources:start */
+@source "(store)/account/page.tsx";
+@source "(store)/cart/page.tsx";
+@source "(store)/checkout/page.tsx";
+@source "(store)/checkout/success/page.tsx";
+@source "(store)/error.tsx";
+@source "(store)/help/page.tsx";
+@source "(store)/layout.tsx";
+@source "(store)/loading.tsx";
+@source "(store)/page.tsx";
+@source "(store)/product/[slug]/page.tsx";
+@source "(store)/shop/page.tsx";
+@source "(store)/stylist/page.tsx";
+@source "admin/(dash)/agents/[id]/page.tsx";
+@source "admin/(dash)/layout.tsx";
+@source "admin/(dash)/new/page.tsx";
+@source "admin/(dash)/page.tsx";
+@source "admin/layout.tsx";
+@source "admin/login/page.tsx";
+@source "api/admin/auth/route.ts";
+@source "api/agent/capabilities/route.ts";
+@source "api/agent/chat/route.ts";
+@source "api/agent/feedback/route.ts";
+@source "api/agent/history/route.ts";
+@source "api/agents/[id]/keys/[keyId]/route.ts";
+@source "api/agents/[id]/keys/route.ts";
+@source "api/agents/[id]/publish/route.ts";
+@source "api/agents/[id]/rollback/route.ts";
+@source "api/agents/[id]/route.ts";
+@source "api/agents/[id]/unpublish/route.ts";
+@source "api/agents/[id]/versions/route.ts";
+@source "api/agents/route.ts";
+@source "api/auth/customer/code/route.ts";
+@source "api/auth/customer/phone/route.ts";
+@source "api/auth/customer/route.ts";
+@source "api/auth/customer/wechat/route.ts";
+@source "api/auth/wechat/callback/route.ts";
+@source "api/auth/wechat/start/route.ts";
+@source "api/cart/route.ts";
+@source "api/events/route.ts";
+@source "api/health/route.ts";
+@source "api/metrics/route.ts";
+@source "api/ops/orders/route.ts";
+@source "api/orders/actions/route.ts";
+@source "api/orders/route.ts";
+@source "api/profile/route.ts";
+@source "api/reco/route.ts";
+@source "api/search/route.ts";
+@source "api/v1/agents/[slug]/route.ts";
+@source "api/wishlist/route.ts";
+@source "error.tsx";
+@source "layout.tsx";
+@source "login/page.tsx";
+@source "manifest.ts";
+@source "not-found.tsx";
+@source "robots.ts";
+@source "sitemap.ts";
+@source "../components/account/CustomerLogout.tsx";
+@source "../components/account/OrderActions.tsx";
+@source "../components/account/ProfileEditor.tsx";
+@source "../components/admin/AdminLogin.tsx";
+@source "../components/admin/AdminLogout.tsx";
+@source "../components/admin/AgentAdminPanel.tsx";
+@source "../components/admin/CreateAgentForm.tsx";
+@source "../components/auth/LoginPanel.tsx";
+@source "../components/product/OutfitAddAll.tsx";
+@source "../components/product/ProductArt.tsx";
+@source "../components/product/ProductCard.tsx";
+@source "../components/product/ProductHero.tsx";
+@source "../components/providers/Cart.tsx";
+@source "../components/providers/Toast.tsx";
+@source "../components/providers/Wishlist.tsx";
+@source "../components/storefront/CartDrawer.tsx";
+@source "../components/storefront/CartPageClient.tsx";
+@source "../components/storefront/CheckoutClient.tsx";
+@source "../components/storefront/Footer.tsx";
+@source "../components/storefront/Header.tsx";
+@source "../components/storefront/MobileTabBar.tsx";
+@source "../components/storefront/SearchOverlay.tsx";
+@source "../components/storefront/ShopToolbar.tsx";
+@source "../components/stylist/ChatProductCard.tsx";
+@source "../components/stylist/StylistWorkspace.tsx";
+@source "../components/ui/Icon.tsx";
+@source "../instrumentation.ts";
+@source "../lib/agent/compose.ts";
+@source "../lib/agent/config.ts";
+@source "../lib/agent/evaluation.ts";
+@source "../lib/agent/guardrails.ts";
+@source "../lib/agent/llm-settings.ts";
+@source "../lib/agent/llm-shared.ts";
+@source "../lib/agent/llm.ts";
+@source "../lib/agent/runtime.ts";
+@source "../lib/agent/tools.ts";
+@source "../lib/agent/types.ts";
+@source "../lib/agents/admin.ts";
+@source "../lib/agents/validation.ts";
+@source "../lib/auth/passwords.ts";
+@source "../lib/commerce/inventory.ts";
+@source "../lib/commerce/pricing.ts";
+@source "../lib/customer-auth.ts";
+@source "../lib/data/agent-registry.ts";
+@source "../lib/data/agent-seeds.ts";
+@source "../lib/data/catalog.ts";
+@source "../lib/data/community.ts";
+@source "../lib/data/member-seeds.ts";
+@source "../lib/data/reviews.ts";
+@source "../lib/data/size-guide.ts";
+@source "../lib/engine/experiment.ts";
+@source "../lib/engine/features.ts";
+@source "../lib/engine/intent.ts";
+@source "../lib/engine/knowledge.ts";
+@source "../lib/engine/metrics.ts";
+@source "../lib/engine/outfit.ts";
+@source "../lib/engine/profile.ts";
+@source "../lib/engine/rank.ts";
+@source "../lib/engine/reason.ts";
+@source "../lib/engine/recall.ts";
+@source "../lib/engine/recommend.ts";
+@source "../lib/engine/search.ts";
+@source "../lib/engine/text.ts";
+@source "../lib/engine/types.ts";
+@source "../lib/env.ts";
+@source "../lib/hooks/useDialog.ts";
+@source "../lib/security.ts";
+@source "../lib/store/db.ts";
+@source "../lib/store/session.ts";
+@source "../lib/store/types.ts";
+@source "../lib/types.ts";
+@source "../lib/utils/format.ts";
+@source "../lib/wechat.ts";
+/* @tailwind-sources:end */
+
+@theme {
+  --color-ivory: #f5f1ea;
+  --color-paper: #fbf9f5;
+  --color-bone: #ece6db;
+  --color-ink: #17160f;
+  --color-ink-soft: #34322b;
+  --color-muted: #787165;
+  --color-muted-light: #a49c8e;
+  --color-line: #e3dcd0;
+  --color-line-strong: #d2c7b6;
+  --color-clay: #a5482c;
+  --color-clay-dark: #86371f;
+  --color-clay-soft: #f1e2d9;
+  --color-moss: #38493d;
+  --color-moss-soft: #e4e8e0;
+  --color-sand: #cebfa6;
+  --color-gold: #ad8b55;
+  --color-success: #3c6a52;
+  --color-warning: #9a6b2f;
+  --color-danger: #a3392f;
+
+  --font-sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Source Han Sans SC",
+    "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", "Songti SC", "STSong", "Noto Serif CJK SC",
+    "SimSun", serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", ui-monospace, Menlo, Consolas,
+    monospace;
+
+  --tracking-brand: 0.32em;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-ivory);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  ::selection {
+    background: var(--color-clay);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--color-clay);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 400;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-muted-light);
+  }
+
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #cdc3b4;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b7ab98;
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1480px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-x {
+      padding-inline: 2.5rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-x {
+      padding-inline: 3.5rem;
+    }
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    line-height: 1.4;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .eyebrow-ink {
+    color: var(--color-ink);
+  }
+
+  .display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    line-height: 0.98;
+  }
+
+  .num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    height: 48px;
+    padding-inline: 1.6rem;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+    border-radius: 0;
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.25s ease;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .btn:active {
+    transform: translateY(1px);
+  }
+  .btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: var(--color-ink);
+    color: #f8f5ee;
+  }
+  .btn-primary:hover {
+    background: var(--color-clay);
+  }
+
+  .btn-clay {
+    background: var(--color-clay);
+    color: #fff;
+  }
+  .btn-clay:hover {
+    background: var(--color-clay-dark);
+  }
+
+  .btn-outline {
+    border-color: var(--color-ink);
+    color: var(--color-ink);
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: var(--color-ink);
+    color: #f8f5ee;
+  }
+
+  .btn-ghost {
+    border-color: var(--color-line-strong);
+    color: var(--color-ink);
+    background: transparent;
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-ink);
+  }
+
+  .btn-sm {
+    height: 36px;
+    padding-inline: 1rem;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+
+  .link-underline {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 4px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--color-ink);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .link-underline:hover {
+    color: var(--color-clay);
+    border-color: var(--color-clay);
+  }
+
+  .field {
+    width: 100%;
+    height: 48px;
+    padding-inline: 0.9rem;
+    background: transparent;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 0;
+    font-size: 13px;
+    color: var(--color-ink);
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+  .field:focus {
+    outline: none;
+    border-color: var(--color-ink);
+    background: var(--color-paper);
+  }
+  .field-error {
+    border-color: var(--color-danger);
+  }
+  textarea.field {
+    height: auto;
+    padding-block: 0.8rem;
+    resize: vertical;
+  }
+  select.field {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--color-ink) 50%),
+      linear-gradient(135deg, var(--color-ink) 50%, transparent 50%);
+    background-position:
+      calc(100% - 18px) calc(50% - 2px),
+      calc(100% - 13px) calc(50% - 2px);
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 2rem;
+  }
+
+  .label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .card {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+  }
+
+  .console-card {
+    background: #fff;
+    border: 1px solid var(--color-line);
+  }
+
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 26px;
+    padding-inline: 0.6rem;
+    border: 1px solid var(--color-line-strong);
+    font-size: 10.5px;
+    letter-spacing: 0.04em;
+    color: var(--color-ink-soft);
+    background: transparent;
+    white-space: nowrap;
+  }
+
+  .chip-clay {
+    border-color: rgba(165, 72, 44, 0.28);
+    background: var(--color-clay-soft);
+    color: var(--color-clay-dark);
+  }
+
+  .chip-ink {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: #f4f0e8;
+  }
+
+  .surface-grid {
+    background-image:
+      linear-gradient(to right, rgba(23, 22, 15, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(23, 22, 15, 0.045) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+
+  .hairline {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(227, 220, 208, 0.55),
+      rgba(251, 249, 245, 0.9),
+      rgba(227, 220, 208, 0.55)
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite linear;
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 600;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease both;
+}
+
+.animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+.pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

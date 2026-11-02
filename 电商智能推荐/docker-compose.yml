@@ -1,0 +1,60 @@
+name: zhiyan
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+    image: zhiyan-commerce:1.1.0
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      DATA_DIR: /data
+      DATABASE_URL: ${DATABASE_URL:-}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    volumes:
+      - zhiyan-data:/data
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/api/health"]
+      interval: 30s
+      timeout: 8s
+      retries: 3
+      start_period: 20s
+    stop_grace_period: 20s
+
+  postgres:
+    image: postgres:16-alpine
+    profiles: ["postgres"]
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: zhiyan
+      POSTGRES_USER: zhiyan
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-zhiyan-dev-password}
+    volumes:
+      - zhiyan-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zhiyan -d zhiyan"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx:1.27-alpine
+    profiles: ["edge"]
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - "${EDGE_PORT:-8080}:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  zhiyan-data:
+  zhiyan-pg:

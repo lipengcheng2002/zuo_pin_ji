@@ -1,0 +1,36 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# next.js
+.next/
+out/
+
+# production data & local secrets
+.env
+.env.local
+.env.*.local
+.data/
+*.pid
+
+# local tooling / QA artifacts
+.tools/
+.shots/
+coverage/
+*.tsbuildinfo
+
+# python / ml artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+**/ml/data/*.csv
+**/ml/artifacts/spark/
+**/ml/artifacts/two_tower/
+**/ml/artifacts/ranker/
+**/ml/artifacts/offline_eval.json
+
+# os
+.DS_Store
+Thumbs.db

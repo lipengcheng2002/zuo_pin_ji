@@ -1,0 +1,20 @@
+{
+  "name": "ZHIYAN · E-commerce Agent",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "cd '电商智能推荐' && npm install",
+  "postStartCommand": "cd '电商智能推荐' && nohup npm run dev > /tmp/zhiyan-dev.log 2>&1 &",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": {
+      "label": "ZHIYAN App",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  }
+}

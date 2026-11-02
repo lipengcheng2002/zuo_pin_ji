@@ -1,0 +1,359 @@
+openapi: 3.1.0
+info:
+  title: ZHIYAN Agent Registry API
+  version: "1.0"
+  description: |
+    Agent 控制面：登记、上架、下架、版本、回滚与调用 Key。
+    管理接口使用 Bearer AGENT_ADMIN_TOKEN；运行时使用 Bearer zya_ API Key。
+servers:
+  - url: http://127.0.0.1:3000
+security:
+  - adminToken: []
+paths:
+  /api/agents:
+    get:
+      summary: 列出 Agent
+      parameters:
+        - in: query
+          name: status
+          schema:
+            enum: [draft, published, unpublished]
+      responses:
+        "200":
+          description: Agent 列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items: { $ref: "#/components/schemas/Agent" }
+                  counts:
+                    type: object
+                    properties:
+                      total: { type: integer }
+                      draft: { type: integer }
+                      published: { type: integer }
+                      unpublished: { type: integer }
+    post:
+      summary: 创建 Agent 草稿
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AgentCreate" }
+      responses:
+        "201":
+          description: 已创建
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  agent: { $ref: "#/components/schemas/Agent" }
+        "409": { $ref: "#/components/responses/Conflict" }
+  /api/agents/{id}:
+    parameters:
+      - $ref: "#/components/parameters/AgentId"
+    get:
+      summary: Agent 详情与版本
+      responses:
+        "200":
+          description: 详情
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agent: { $ref: "#/components/schemas/Agent" }
+                  versions:
+                    type: array
+                    items: { $ref: "#/components/schemas/Version" }
+    patch:
+      summary: 更新工作副本
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/AgentUpdate" }
+      responses:
+        "200":
+          description: 已更新
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  agent: { $ref: "#/components/schemas/Agent" }
+  /api/agents/{id}/publish:
+    parameters:
+      - $ref: "#/components/parameters/AgentId"
+    post:
+      summary: 上架并生成新版本
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                note: { type: string, maxLength: 200 }
+      responses:
+        "200":
+          description: 已上架
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  agent: { $ref: "#/components/schemas/Agent" }
+                  version: { $ref: "#/components/schemas/Version" }
+  /api/agents/{id}/unpublish:
+    parameters:
+      - $ref: "#/components/parameters/AgentId"
+    post:
+      summary: 下架
+      responses:
+        "200":
+          description: 已下架
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  agent: { $ref: "#/components/schemas/Agent" }
+  /api/agents/{id}/rollback:
+    parameters:
+      - $ref: "#/components/parameters/AgentId"
+    post:
+      summary: 回滚到指定版本（以旧配置发布新版本）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [version]
+              properties:
+                version: { type: integer, minimum: 1 }
+      responses:
+        "200":
+          description: 已回滚
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  agent: { $ref: "#/components/schemas/Agent" }
+                  version: { $ref: "#/components/schemas/Version" }
+  /api/agents/{id}/versions:
+    parameters:
+      - $ref: "#/components/parameters/AgentId"
+    get:
+      summary: 版本历史
+      responses:
+        "200":
+          description: 版本列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agentId: { type: string }
+                  versions:
+                    type: array
+                    items: { $ref: "#/components/schemas/Version" }
+  /api/agents/{id}/keys:
+    parameters:
+      - $ref: "#/components/parameters/AgentId"
+    get:
+      summary: Key 列表（不含明文/哈希）
+      responses:
+        "200":
+          description: Key 列表
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  keys:
+                    type: array
+                    items: { $ref: "#/components/schemas/Key" }
+    post:
+      summary: 创建调用 Key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string, maxLength: 60 }
+                scopes:
+                  type: array
+                  items: { enum: [invoke] }
+                expiresInDays: { type: integer, minimum: 1, maximum: 365 }
+      responses:
+        "201":
+          description: 已创建；token 只返回一次
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
+                  key: { $ref: "#/components/schemas/Key" }
+                  token: { type: string }
+                  warning: { type: string }
+  /api/agents/{id}/keys/{keyId}:
+    parameters:
+      - $ref: "#/components/parameters/AgentId"
+      - in: path
+        name: keyId
+        required: true
+        schema: { type: string }
+    delete:
+      summary: 撤销 Key
+      responses:
+        "200":
+          description: 已撤销
+  /api/v1/agents/{slug}:
+    parameters:
+      - in: path
+        name: slug
+        required: true
+        schema: { type: string }
+    get:
+      summary: 已上架 Agent 的公开元数据
+      security: []
+      responses:
+        "200":
+          description: 元数据
+        "404": { description: 未上架或不存在 }
+    post:
+      summary: 使用 Agent API Key 调用
+      security:
+        - agentKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [message]
+              properties:
+                message: { type: string, maxLength: 600 }
+                conversationId: { type: string, pattern: "^[A-Za-z0-9._:-]{8,80}$" }
+      responses:
+        "200":
+          description: Agent 回答与 trace
+        "401": { description: Key 无效或撤销 }
+        "409": { description: Agent 已下架 }
+components:
+  securitySchemes:
+    adminToken:
+      type: http
+      scheme: bearer
+      description: AGENT_ADMIN_TOKEN
+    agentKey:
+      type: http
+      scheme: bearer
+      description: zya_ 开头的 Agent API Key
+  parameters:
+    AgentId:
+      in: path
+      name: id
+      required: true
+      schema: { type: string }
+  responses:
+    Conflict:
+      description: 状态冲突或 slug 已存在
+  schemas:
+    AgentConfig:
+      type: object
+      required: [promptVersion, provider, model, planner, temperature, maxToolsPerTurn, minIntentConfidence, tools]
+      properties:
+        promptVersion: { type: string }
+        provider: { type: string }
+        model: { type: string }
+        planner: { type: boolean }
+        temperature: { type: number, minimum: 0, maximum: 1 }
+        maxToolsPerTurn: { type: integer, minimum: 1, maximum: 6 }
+        minIntentConfidence: { type: number, minimum: 0, maximum: 0.95 }
+        tools:
+          type: array
+          items: { type: string }
+    Agent:
+      type: object
+      properties:
+        id: { type: string }
+        slug: { type: string }
+        name: { type: string }
+        description: { type: string }
+        owner: { type: string }
+        adapter: { enum: [stylist] }
+        status: { enum: [draft, published, unpublished] }
+        channels:
+          type: array
+          items: { enum: [web, api, mini_program] }
+        config: { $ref: "#/components/schemas/AgentConfig" }
+        currentVersion: { type: [integer, "null"] }
+        publishedVersion: { type: [integer, "null"] }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        createdBy: { type: string }
+        updatedBy: { type: string }
+    AgentCreate:
+      type: object
+      required: [slug, name]
+      properties:
+        slug: { type: string, pattern: "^[a-z0-9][a-z0-9-]{2,48}$" }
+        name: { type: string }
+        description: { type: string }
+        owner: { type: string }
+        channels:
+          type: array
+          items: { enum: [web, api, mini_program] }
+        config: { $ref: "#/components/schemas/AgentConfig" }
+    AgentUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        owner: { type: string }
+        channels:
+          type: array
+          items: { enum: [web, api, mini_program] }
+        config: { $ref: "#/components/schemas/AgentConfig" }
+    Version:
+      type: object
+      properties:
+        id: { type: string }
+        agentId: { type: string }
+        version: { type: integer }
+        config: { $ref: "#/components/schemas/AgentConfig" }
+        channels:
+          type: array
+          items: { enum: [web, api, mini_program] }
+        note: { type: string }
+        createdAt: { type: string, format: date-time }
+        createdBy: { type: string }
+    Key:
+      type: object
+      properties:
+        id: { type: string }
+        agentId: { type: string }
+        name: { type: string }
+        prefix: { type: string }
+        scopes:
+          type: array
+          items: { enum: [invoke] }
+        createdAt: { type: string, format: date-time }
+        lastUsedAt: { type: [string, "null"], format: date-time }
+        expiresAt: { type: [string, "null"], format: date-time }
+        revokedAt: { type: [string, "null"], format: date-time }
