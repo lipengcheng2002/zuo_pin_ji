@@ -4,3 +4,5 @@
 *.gif binary
 *.jpg binary
 *.webp binary
+# Packaged desktop app binaries
+精图快出/** binary

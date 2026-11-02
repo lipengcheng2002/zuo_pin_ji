@@ -34,3 +34,6 @@ venv/
 # os
 .DS_Store
 Thumbs.db
+# Keep packaged desktop app runtime files (PyInstaller .pyd/.dll/.exe)
+!精图快出/
+!精图快出/**

@@ -1,0 +1,10 @@
+精图快出 v2.5.0
+构建日期：2026-10-28
+程序：精图快出.exe
+程序 SHA256：3c565d5532b5fb75899ac1a10e84e3efc43823da18b714a01251a8c74a039fe1
+使用手册 SHA256：b99fcf0c82439b6873c0971634857c8033a72d06561acdc827fbedac6edca775
+项目简介 SHA256：2a1c888e57535acfbbae2f7a8c6964c7a4c027ff9ad37c6c783160ca6c1c0bda
+
+运行方式：双击同目录下的 exe；其余文件为运行依赖，请勿删除或改名。
+数据目录：%LOCALAPPDATA%\JingTuKuaiChu（可按使用手册配置 JTKC_DATA_DIR）。
+使用手册与项目简介位于本文件夹第一层；Word 版、问题清单和源码归档位于其余文件。
